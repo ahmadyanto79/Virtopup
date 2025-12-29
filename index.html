@@ -3,101 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRWAN TOPUP - PREMIUM SYSTEM</title>
+    <title>VIRWAN TOPUP - FINAL SYSTEM 😈</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
     <style>
         :root { --dark: #0a0a0a; --neon: #00ff41; --blood: #ff0000; --card: #151515; }
         body { background: var(--dark); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; overflow-x: hidden; }
         .container { padding: 20px; max-width: 800px; margin: auto; }
         
         /* UI FORM CUSTOMER */
-        .card { background: var(--card); padding: 25px; border: 1px solid #333; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1, h3 { color: var(--neon); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
-        input, select, button { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box; }
-        button { background: var(--neon); color: black; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
-        button:hover { background: #00cc33; transform: scale(1.02); }
+        .card { background: var(--card); padding: 25px; border: 1px solid #333; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
+        h1, h3 { color: var(--neon); text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-top: 0; }
+        input, select, button { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box; outline: none; }
+        button { background: var(--neon); color: black; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; text-transform: uppercase; }
+        button:hover { background: #00cc33; transform: scale(1.02); box-shadow: 0 0 15px var(--neon); }
 
-        /* UI ADMIN DASHBOARD (SANGAR) */
-        #admin-section { display: none; animation: fadeIn 0.5s ease; }
+        /* UI ADMIN DASHBOARD */
+        #admin-section { display: none; animation: fadeIn 0.5s ease-in-out; }
         .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-box { background: #1a1a1a; padding: 20px; border: 1px solid var(--neon); text-align: center; border-radius: 10px; }
+        .stat-box { background: #1a1a1a; padding: 20px; border: 1px solid var(--neon); text-align: center; border-radius: 10px; box-shadow: inset 0 0 10px rgba(0,255,65,0.1); }
+        .stat-box p { margin: 0; font-size: 12px; color: #888; letter-spacing: 1px; }
         .stat-box h2 { margin: 5px 0; color: var(--neon); font-size: 28px; }
         
-        .order-card { background: #111; border-left: 5px solid var(--neon); padding: 15px; margin-bottom: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .order-card { background: #111; border-left: 5px solid var(--neon); padding: 15px; margin-bottom: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .order-card:hover { background: #1a1a1a; }
         .order-info b { font-size: 18px; color: var(--neon); }
         .order-info p { margin: 5px 0; color: #aaa; font-size: 14px; }
         
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: inline-block; }
         .badge-pending { background: #554400; color: #ffcc00; }
         .badge-success { background: #004411; color: #00ff41; }
 
-        .action-btns { display: flex; gap: 10px; }
+        .action-btns { display: flex; gap: 8px; }
         .btn-done { background: var(--neon); color: black; width: 70px; padding: 8px; font-size: 11px; }
         .btn-del { background: var(--blood); color: white; width: 70px; padding: 8px; font-size: 11px; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 id="main-title">VIRWAN TOPUP AI </h1>
+    <h1 id="main-title">VIRWAN TOPUP AI 😈</h1>
 
     <div class="card" id="user-form">
-        <h3>PILIH NOMINAL TOPUP</h3>
-        <input type="text" id="user_id" placeholder="Masukkan ID Game (Contoh: 88271123)" required>
+        <h3>INPUT DATA PESANAN</h3>
+        <input type="text" id="user_id" placeholder="ID Game (Contoh: 88271123)" required>
         <select id="nominal">
             <option value="50 Diamonds (Rp 15.000)">50 Diamonds - Rp 15.000</option>
             <option value="100 Diamonds (Rp 30.000)">100 Diamonds - Rp 30.000</option>
             <option value="1000 Diamonds (Rp 250.000)">1000 Diamonds - Rp 250.000</option>
         </select>
-        <input type="number" id="whatsapp" placeholder="Nomor WA (Contoh: 62821...)" required>
-        <button onclick="kirimOrder()">GAS TOP UP! </button>
-        <button style="background: #333; color: #888; margin-top: 20px;" onclick="showLogin()">STAFF ONLY</button>
+        <input type="number" id="whatsapp" placeholder="Nomor WhatsApp (62821...)" required>
+        <button onclick="kirimOrder()">KIRIM PESANAN SEKARANG! 🚀</button>
+        <button style="background: #222; color: #555; margin-top: 20px; font-size: 10px;" onclick="showLogin()">ADMIN LOGIN</button>
     </div>
 
     <div id="admin-section">
         <div class="stats-container">
             <div class="stat-box">
-                <p>TOTAL ORDER</p>
+                <p>TOTAL TRANSAKSI</p>
                 <h2 id="count-order">0</h2>
             </div>
             <div class="stat-box">
-                <p>ESTIMASI CUAN</p>
+                <p>ESTIMASI PENDAPATAN</p>
                 <h2 id="revenue-order">Rp 0</h2>
             </div>
         </div>
 
         <div class="card">
-            <h3 style="text-align: left; margin-bottom: 20px;">LIVE ORDERS MONITOR</h3>
-            <div id="order-list">Menunggu pesanan...</div>
-            <button onclick="location.reload()" style="background: #444; margin-top: 20px;">LOGOUT ADMIN</button>
+            <h3 style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">MONITORING REAL-TIME</h3>
+            <div id="order-list">Memuat data...</div>
+            <button onclick="location.reload()" style="background: #333; margin-top: 20px; color: #ff4444;">LOGOUT SESSION</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- KONFIGURASI FIREBASE (UDAH FIX PAKE PUNYA LU) ---
+    // --- KONFIGURASI FIREBASE FINAL ---
     const firebaseConfig = {
         apiKey: "AIzaSyA3xNFbqU1PGfC4OYqCd0sRDhlTDzdmAVI",
         authDomain: "web-topup-43b4d.firebaseapp.com",
-        databaseURL: "https://web-topup-43b4d-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        databaseURL: "https://web-topup-43b4d-default-rtdb.firebaseio.com",
         projectId: "web-topup-43b4d",
         storageBucket: "web-topup-43b4d.firebasestorage.app",
         messagingSenderId: "435775818250",
-        appId: "1:435775818250:web:c935497791f2aa0da0adf3"
+        appId: "1:435775818250:web:c935497791f2aa0da0adf3",
+        measurementId: "G-H2XEYS6V0E"
     };
+
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
     const db = firebase.database();
 
-    // 1. FUNGSI KIRIM ORDER
+    // 1. FUNGSI KIRIM ORDER (CUSTOMER SIDE)
     function kirimOrder() {
         const id = document.getElementById('user_id').value;
         const nom = document.getElementById('nominal').value;
         const wa = document.getElementById('whatsapp').value;
 
-        if(!id || !wa) return alert("Woi! Isi datanya yang bener, jangan kosong!");
+        if(!id || !wa) return alert("Woi! Datanya diisi dulu, jangan asal klik!");
 
         const newOrder = {
             id_game: id,
@@ -108,18 +116,18 @@
         };
 
         db.ref('orders/').push(newOrder).then(() => {
-            alert("PESANAN TERKIRIM! Silahkan tunggu diproses admin.");
+            alert("SUCCESS! Pesanan lo udah masuk ke database admin.");
             document.getElementById('user_id').value = "";
             document.getElementById('whatsapp').value = "";
-        }).catch(err => alert("Error: " + err.message));
+        }).catch(err => alert("System Error: " + err.message));
     }
 
     // 2. FUNGSI LOGIN ADMIN
     function showLogin() {
-        const pass = prompt("MASUKKAN KEY VirWan AI:");
+        const pass = prompt("MASUKKAN KODE AKSES ADMIN:");
         if(pass === "VirWan2323") {
             document.getElementById('user-form').style.display = 'none';
-            document.getElementById('main-title').innerText = "ADMIN CONTROL PANEL ";
+            document.getElementById('main-title').innerText = "CONTROL PANEL ACTIVE 💀";
             document.getElementById('admin-section').style.display = 'block';
             loadOrders();
         } else {
@@ -127,7 +135,7 @@
         }
     }
 
-    // 3. LOAD DATA REAL-TIME & STATS
+    // 3. FUNGSI LOAD DATA REAL-TIME & STATISTIK
     function loadOrders() {
         db.ref('orders/').on('value', (snapshot) => {
             const list = document.getElementById('order-list');
@@ -138,11 +146,15 @@
             let totalCount = 0;
             let totalCuan = 0;
 
+            if(!snapshot.exists()) {
+                list.innerHTML = "<p style='text-align:center; color:#555;'>Belum ada pesanan masuk...</p>";
+            }
+
             snapshot.forEach((child) => {
                 const data = child.val();
                 totalCount++;
 
-                // Hitung Cuan Otomatis dari String
+                // Kalkulasi Cuan otomatis dari pilihan item
                 if(data.item.includes("15.000")) totalCuan += 15000;
                 if(data.item.includes("30.000")) totalCuan += 30000;
                 if(data.item.includes("250.000")) totalCuan += 250000;
@@ -155,7 +167,8 @@
                             <span class="badge ${statusBadge}">${data.status}</span><br>
                             <b>ID: ${data.id_game}</b>
                             <p>Item: ${data.item}</p>
-                            <p>WA: ${data.whatsapp}</p>
+                            <p>WA: <a href="https://wa.me/${data.whatsapp}" target="_blank" style="color:var(--neon); text-decoration:none;">${data.whatsapp}</a></p>
+                            <p style="font-size:10px; color:#444;">🕒 ${new Date(data.timestamp).toLocaleString()}</p>
                         </div>
                         <div class="action-btns">
                             <button class="btn-done" onclick="updateOrder('${child.key}')">DONE</button>
@@ -166,18 +179,18 @@
             });
 
             countEl.innerText = totalCount;
-            revEl.innerText = "Rp " + totalCuan.toLocaleString();
+            revEl.innerText = "Rp " + totalCuan.toLocaleString('id-ID');
         });
     }
 
-    // 4. UPDATE STATUS KE SUCCESS
+    // 4. FUNGSI UPDATE STATUS PESANAN
     function updateOrder(key) {
         db.ref('orders/' + key).update({ status: "SUCCESS" });
     }
 
-    // 5. HAPUS DATA
+    // 5. FUNGSI HAPUS PESANAN
     function deleteOrder(key) {
-        if(confirm("Yakin mau hapus data ini?")) {
+        if(confirm("Hapus permanen data ini dari database?")) {
             db.ref('orders/' + key).remove();
         }
     }
@@ -185,4 +198,3 @@
 
 </body>
 </html>
-
